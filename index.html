@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DockPeek</title>
+<style>
+  :root {
+    --bg: #0d0f12; --card: #16191d; --text: #f2f3f5;
+    --muted: #9aa1ab; --accent: #4c8eff; --border: #262a30;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    display: flex; justify-content: center; padding: 6vh 1.5rem;
+  }
+  main { max-width: 640px; width: 100%; }
+  h1 { font-size: 2rem; margin: 0 0 0.25rem; }
+  .tagline { color: var(--muted); margin: 0 0 2.5rem; font-size: 1.05rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem; margin-bottom: 1.5rem;
+  }
+  .version {
+    display: inline-block; font-size: 0.8rem; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 0.2rem 0.7rem; margin-bottom: 1.2rem;
+  }
+  .download {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent); color: #14161a; text-decoration: none;
+    font-weight: 700; padding: 0.85rem 1.5rem; border-radius: 10px;
+    transition: opacity 0.15s;
+  }
+  .download:hover { opacity: 0.88; }
+  .requirements { color: var(--muted); font-size: 0.85rem; margin-top: 1rem; }
+  .steps { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+  .steps b { color: var(--text); }
+  ul.features { color: var(--muted); font-size: 0.92rem; line-height: 1.75; padding-left: 1.1rem; margin: 0; }
+  ul.features b { color: var(--text); font-weight: 600; }
+  footer { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 2rem; }
+  a.plain { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>DockPeek</h1>
+  <p class="tagline">Survole une icône du Dock, vois ses fenêtres.</p>
+
+  <div class="card">
+    <span class="version" id="version">Version —</span><br>
+    <a class="download"
+       href="https://github.com/gambidrissi-dev/DockPeek-Share/releases/latest/download/DockPeek.zip">
+      ⬇ Télécharger pour macOS
+    </a>
+    <p class="requirements">macOS 14 (Sonoma) ou plus récent · Apple Silicon</p>
+  </div>
+
+  <div class="card">
+    <ul class="features">
+      <li><b>Aperçu au survol</b> — les fenêtres ouvertes de l'app apparaissent au-dessus de son icône, sans cliquer.</li>
+      <li><b>Un clic pour y aller</b> — choisis un aperçu, la fenêtre revient au premier plan.</li>
+      <li><b>Fenêtres réduites</b> — elles restent dans la liste, en plus pâle.</li>
+      <li><b>Discrète</b> — pas d'icône au Dock : une seule icône dans la barre de menus, qui dit si tout est autorisé.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <p class="steps">
+      <b>1.</b> Décompresse le zip, glisse <code>DockPeek.app</code> dans <code>Applications</code>.<br>
+      <b>2.</b> Au premier lancement, macOS affiche « développeur non identifié » — fais
+      <b>clic droit → Ouvrir</b>, puis confirme. C'est normal, l'app n'est pas distribuée via
+      l'App Store.<br>
+      <b>3.</b> Autorise <b>Accessibilité</b> puis <b>Enregistrement de l'écran</b> dans Réglages Système —
+      l'icône de la barre de menus ouvre directement le bon panneau.<br>
+      <b>4.</b> Les mises à jour suivantes se font toutes seules, ou depuis
+      <b>l'icône de la barre de menus → Rechercher les mises à jour…</b>
+    </p>
+  </div>
+
+  <footer>
+    Code source privé · binaires publiés via
+    <a class="plain" href="https://github.com/gambidrissi-dev/DockPeek-Share/releases">GitHub Releases</a>
+  </footer>
+</main>
+
+<script>
+  fetch("https://api.github.com/repos/gambidrissi-dev/DockPeek-Share/releases/latest")
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (d && d.tag_name) {
+        document.getElementById("version").textContent = "Version " + d.tag_name.replace(/^v/, "");
+      }
+    })
+    .catch(() => {});
+</script>
+</body>
+</html>
